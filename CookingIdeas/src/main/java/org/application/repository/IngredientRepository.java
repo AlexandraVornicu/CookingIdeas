@@ -1,7 +1,7 @@
-package repository;
+package org.application.repository;
 
-import model.dtos.IngredientDTO;
-import model.entities.IngredientEntity;
+import org.application.model.dtos.IngredientDTO;
+import org.application.model.entities.IngredientEntity;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;

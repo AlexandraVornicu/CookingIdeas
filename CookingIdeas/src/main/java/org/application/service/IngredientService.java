@@ -1,10 +1,10 @@
-package service;
+package org.application.service;
 
-import model.dtos.IngredientDTO;
-import model.entities.IngredientEntity;
+import org.application.model.dtos.IngredientDTO;
+import org.application.model.entities.IngredientEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import repository.IngredientRepository;
+import org.application.repository.IngredientRepository;
 
 @Service
 public class IngredientService {

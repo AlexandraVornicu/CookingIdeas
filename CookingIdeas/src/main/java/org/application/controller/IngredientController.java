@@ -1,8 +1,8 @@
-package controller;
+package org.application.controller;
 
 import jakarta.validation.Valid;
-import model.dtos.CustomResponseDTO;
-import model.dtos.IngredientDTO;
+import org.application.model.dtos.CustomResponseDTO;
+import org.application.model.dtos.IngredientDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import service.IngredientService;
+import org.application.service.IngredientService;
 
 import java.util.ArrayList;
 import java.util.List;

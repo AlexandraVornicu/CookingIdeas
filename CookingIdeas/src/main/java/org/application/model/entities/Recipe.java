@@ -1,4 +1,4 @@
-package model.entities;
+package org.application.model.entities;
 
 import java.util.Map;
 import java.util.List;

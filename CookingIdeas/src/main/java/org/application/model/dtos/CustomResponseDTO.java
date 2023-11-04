@@ -1,4 +1,4 @@
-package model.dtos;
+package org.application.model.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
