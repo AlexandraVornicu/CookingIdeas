@@ -24,4 +24,8 @@ public class IngredientRepository {
         ingredientEntities.replace(ingredientToSave.getName(), ingredientToSave.getQuantity());
         return ingredientToSave;
     }
+
+    public void deleteIngredient(String name) {
+        ingredientEntities.remove(name);
+    }
 }

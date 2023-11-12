@@ -48,4 +48,8 @@ public class IngredientService {
 
         return ingredientMapper.mapIngredientEntityToIngredientDTO(createdIngredientEntity);
     }
+
+    public void deleteIngredient(String name) {
+        ingredientRepository.deleteIngredient(name);
+    }
 }
