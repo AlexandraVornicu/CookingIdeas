@@ -8,20 +8,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.application.service.IngredientService;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.*;
 
 @RestController
 public class IngredientController {
 
-    List<IngredientDTO> ingredientDTOList = new ArrayList<>();
+    Map<String, Integer> ingredientDTOList = new HashMap<>();
     private final IngredientService ingredientService;
 
     @Autowired
@@ -44,16 +39,20 @@ public class IngredientController {
 
             customResponseDTO.setResponseObject(null);
             customResponseDTO.setResponseMessage(String.valueOf(errorMessages));
+            return new ResponseEntity<>(customResponseDTO, HttpStatus.BAD_REQUEST);
+        }
 
+        if(ingredientDTOList.containsKey(ingredientDTO.getName())) {
+            customResponseDTO.setResponseObject(null);
+            customResponseDTO.setResponseMessage("Ingredientul exista si trebuie actualizat.");
             return new ResponseEntity<>(customResponseDTO, HttpStatus.BAD_REQUEST);
         }
 
         ingredientService.createIngredient(ingredientDTO);
         customResponseDTO.setResponseObject(ingredientDTO);
-        ingredientDTOList.add(ingredientDTO);
+        ingredientDTOList.put(ingredientDTO.getName(), ingredientDTO.getQuantity());
         customResponseDTO.setResponseMessage("Ingredient creat cu succes.");
         return new ResponseEntity<>(customResponseDTO, HttpStatus.CREATED);
-
     }
 
     @GetMapping(path = "/ingredients")
@@ -61,5 +60,40 @@ public class IngredientController {
         return ingredientService.getAllIngredients();
     }
 
+    @PutMapping(path = "/ingredient/{name}")
+    public ResponseEntity<CustomResponseDTO> updateIngredient(@PathVariable String name,
+                                                              @RequestBody @Valid IngredientDTO ingredientDTO,
+                                                              BindingResult bindingResult) {
+        CustomResponseDTO customResponseDTO = new CustomResponseDTO();
 
+        if (bindingResult.hasErrors()) {
+            List<FieldError> fieldErrors = bindingResult.getFieldErrors();
+
+            StringBuilder errorMessages = new StringBuilder();
+            for (FieldError errorMessage : fieldErrors) {
+                errorMessages.append(errorMessage.getDefaultMessage()).append(" ");
+            }
+
+            customResponseDTO.setResponseObject(null);
+            customResponseDTO.setResponseMessage(String.valueOf(errorMessages));
+            return new ResponseEntity<>(customResponseDTO, HttpStatus.BAD_REQUEST);
+        }
+
+        if(ingredientDTOList.containsKey(name) && Objects.equals(ingredientDTO.getName(), name)) {
+            ingredientService.updateIngredient(ingredientDTO);
+            customResponseDTO.setResponseObject(ingredientDTO);
+            ingredientDTOList.put(ingredientDTO.getName(), ingredientDTO.getQuantity());
+            customResponseDTO.setResponseMessage("Ingredient actualizat cu succes.");
+            return new ResponseEntity<>(customResponseDTO, HttpStatus.CREATED);
+        } else if (!Objects.equals(ingredientDTO.getName(), name)){
+            customResponseDTO.setResponseObject(null);
+            customResponseDTO.setResponseMessage("Numele ingredientului din endpoint trebuie sa coincida cu cel din " +
+                "body.");
+            return new ResponseEntity<>(customResponseDTO, HttpStatus.BAD_REQUEST);
+        } else {
+            customResponseDTO.setResponseObject(null);
+            customResponseDTO.setResponseMessage("Ingredientul nu exista in baza de date.");
+            return new ResponseEntity<>(customResponseDTO, HttpStatus.BAD_REQUEST);
+        }
+    }
 }

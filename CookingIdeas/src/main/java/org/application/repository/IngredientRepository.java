@@ -4,20 +4,24 @@ import org.application.model.dtos.IngredientDTO;
 import org.application.model.entities.IngredientEntity;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Repository
 public class IngredientRepository {
 
-    private List<IngredientEntity> ingredientEntities = new ArrayList<>();
+    private Map<String, Integer> ingredientEntities = new HashMap();
 
     public IngredientEntity createIngredient(IngredientEntity ingredientToSave) {
-        ingredientEntities.add(ingredientToSave);
+        ingredientEntities.put(ingredientToSave.getName(), ingredientToSave.getQuantity());
         return ingredientToSave;
     }
 
-    public List<IngredientEntity> getAllIngredients() {
+    public Map<String, Integer> getAllIngredients() {
         return ingredientEntities;
+    }
+
+    public IngredientEntity updateIngredient(IngredientEntity ingredientToSave) {
+        ingredientEntities.replace(ingredientToSave.getName(), ingredientToSave.getQuantity());
+        return ingredientToSave;
     }
 }

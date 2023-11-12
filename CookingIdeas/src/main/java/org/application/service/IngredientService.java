@@ -8,6 +8,7 @@ import org.application.repository.IngredientRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class IngredientService {
@@ -31,9 +32,20 @@ public class IngredientService {
 
     public List<IngredientDTO> getAllIngredients() {
         List<IngredientDTO> ingredientDTOList = new ArrayList<>();
-        for (IngredientEntity ingredientEntity : ingredientRepository.getAllIngredients()) {
+        for (Map.Entry<String, Integer> entry : ingredientRepository.getAllIngredients().entrySet()) {
+            IngredientEntity ingredientEntity = new IngredientEntity();
+            ingredientEntity.setName(entry.getKey());
+            ingredientEntity.setQuantity(entry.getValue());
             ingredientDTOList.add(ingredientMapper.mapIngredientEntityToIngredientDTO(ingredientEntity));
         }
         return ingredientDTOList;
+    }
+
+    public IngredientDTO updateIngredient(IngredientDTO ingredientToCreateDTO) {
+
+        IngredientEntity ingredientEntity = ingredientMapper.mapIngredientDTOtoIngredientEntity(ingredientToCreateDTO);
+        IngredientEntity createdIngredientEntity = ingredientRepository.updateIngredient(ingredientEntity);
+
+        return ingredientMapper.mapIngredientEntityToIngredientDTO(createdIngredientEntity);
     }
 }
