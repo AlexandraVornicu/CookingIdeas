@@ -1,6 +1,5 @@
 package org.application.repository;
 
-import org.application.model.dtos.IngredientDTO;
 import org.application.model.entities.IngredientEntity;
 import org.springframework.stereotype.Repository;
 
@@ -9,7 +8,7 @@ import java.util.*;
 @Repository
 public class IngredientRepository {
 
-    private Map<String, Integer> ingredientEntities = new HashMap();
+    private Map<String, Integer> ingredientEntities = new HashMap<>();
 
     public IngredientEntity createIngredient(IngredientEntity ingredientToSave) {
         ingredientEntities.put(ingredientToSave.getName(), ingredientToSave.getQuantity());
