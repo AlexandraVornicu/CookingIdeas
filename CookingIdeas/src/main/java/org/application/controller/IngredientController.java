@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import org.application.model.dtos.CustomResponseDTO;
 import org.application.model.dtos.IngredientCreateDTO;
 import org.application.model.dtos.IngredientSearchDTO;
+import org.application.service.IngredientMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,7 @@ import java.util.*;
 @RestController
 public class IngredientController {
 
-    Map<String, Integer> ingredientDTOList = new HashMap<>();
+    private List<IngredientSearchDTO> ingredientList;
     private final IngredientService ingredientService;
 
     @Autowired
@@ -28,22 +29,22 @@ public class IngredientController {
     @PostMapping(path = "/ingredient")
     public ResponseEntity<CustomResponseDTO> createNewIngredient(@RequestBody @Valid IngredientCreateDTO ingredientDTO,
                                                                    BindingResult bindingResult) {
+
         CustomResponseDTO customResponseDTO = new CustomResponseDTO();
 
         if (bindingResult.hasErrors()) {
             List<FieldError> fieldErrors = bindingResult.getFieldErrors();
-
             StringBuilder errorMessages = new StringBuilder();
             for (FieldError errorMessage : fieldErrors) {
                 errorMessages.append(errorMessage.getDefaultMessage()).append(" ");
             }
-
             customResponseDTO.setResponseObject(null);
             customResponseDTO.setResponseMessage(String.valueOf(errorMessages));
             return new ResponseEntity<>(customResponseDTO, HttpStatus.BAD_REQUEST);
         }
 
-        if(ingredientDTOList.containsKey(ingredientDTO.getName())) {
+        ingredientList = ingredientService.getAllIngredients();
+        if(ingredientList.stream().anyMatch(i -> (i.getName()).equals(ingredientDTO.getName()))) {
             customResponseDTO.setResponseObject(null);
             customResponseDTO.setResponseMessage("Ingredientul exista si trebuie actualizat.");
             return new ResponseEntity<>(customResponseDTO, HttpStatus.BAD_REQUEST);
@@ -51,7 +52,6 @@ public class IngredientController {
 
         IngredientSearchDTO ingredientSearchDTO = ingredientService.createIngredient(ingredientDTO);
         customResponseDTO.setResponseObject(ingredientSearchDTO);
-        ingredientDTOList.put(ingredientDTO.getName(), ingredientDTO.getQuantity());
         customResponseDTO.setResponseMessage("Ingredient creat cu succes.");
         return new ResponseEntity<>(customResponseDTO, HttpStatus.CREATED);
     }
