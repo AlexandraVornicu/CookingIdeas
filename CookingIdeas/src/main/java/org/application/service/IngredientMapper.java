@@ -8,10 +8,14 @@ import org.springframework.stereotype.Component;
 public class IngredientMapper {
 
     public IngredientEntity mapIngredientDTOtoIngredientEntity(IngredientDTO ingredientDTO) {
-        return new IngredientEntity(ingredientDTO.getName(), ingredientDTO.getQuantity());
+        IngredientEntity ingredientEntity = new IngredientEntity();
+        ingredientEntity.setName(ingredientDTO.getName());
+        ingredientEntity.setQuantity(ingredientDTO.getQuantity());
+        return ingredientEntity;
     }
 
     public IngredientDTO mapIngredientEntityToIngredientDTO(IngredientEntity ingredientEntity) {
-        return new IngredientDTO(ingredientEntity.getName(), ingredientEntity.getQuantity());
+        return IngredientDTO.builder().name(ingredientEntity.getName()).quantity(ingredientEntity.getQuantity()).build();
+
     }
 }

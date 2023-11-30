@@ -21,22 +21,22 @@ public class RecipeService {
         this.ingredientRepository = ingredientRepository;
     }
 
-    public List<RecipeEntity> getAllRecipes(){
-        List<RecipeEntity> allRecipes = recipeRepository.getAllRecipes();
-        Map<String, Integer> allIngredients = ingredientRepository.getAllIngredients();
-
-        //logic
-
-        for(RecipeEntity entry: allRecipes) {
-            Map<String, Integer> allIngredientsfromRecipe = entry.getIngredientsAndQuantity();
-
-//            if (allIngredients.containsKey(entry.getName()) &&
-//                allIngredients.get(entry.getName()) == entry.getIngredientsAndQuantity()) {
+//    public List<RecipeEntity> getAllRecipes(){
+//        List<RecipeEntity> allRecipes = recipeRepository.getAllRecipes();
+//        Map<String, Integer> allIngredients = ingredientRepository.getAllIngredients();
 //
-//            }
-        }
-
-
-        return recipeRepository.getAllRecipes();
-    }
+//        //logic
+//
+//        for(RecipeEntity entry: allRecipes) {
+//            Map<String, Integer> allIngredientsfromRecipe = entry.getIngredientsAndQuantity();
+//
+////            if (allIngredients.containsKey(entry.getName()) &&
+////                allIngredients.get(entry.getName()) == entry.getIngredientsAndQuantity()) {
+////
+////            }
+//        }
+//
+//
+//        return recipeRepository.getAllRecipes();
+//    }
 }

@@ -18,8 +18,8 @@ public class RecipeController {
         this.recipeService = recipeService;
     }
 
-    @GetMapping(path = "/recipes")
-    public List<RecipeEntity> getAllRecipes() {
-        return recipeService.getAllRecipes();
-    }
+//    @GetMapping(path = "/recipes")
+//    public List<RecipeEntity> getAllRecipes() {
+//        return recipeService.getAllRecipes();
+//    }
 }

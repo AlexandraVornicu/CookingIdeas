@@ -25,31 +25,31 @@ public class IngredientService {
     public IngredientDTO createIngredient(IngredientDTO ingredientToCreateDTO) {
 
         IngredientEntity ingredientEntity = ingredientMapper.mapIngredientDTOtoIngredientEntity(ingredientToCreateDTO);
-        IngredientEntity createdIngredientEntity = ingredientRepository.createIngredient(ingredientEntity);
+        IngredientEntity createdIngredientEntity = ingredientRepository.save(ingredientEntity);
 
         return ingredientMapper.mapIngredientEntityToIngredientDTO(createdIngredientEntity);
     }
 
-    public List<IngredientDTO> getAllIngredients() {
-        List<IngredientDTO> ingredientDTOList = new ArrayList<>();
-        for (Map.Entry<String, Integer> entry : ingredientRepository.getAllIngredients().entrySet()) {
-            IngredientEntity ingredientEntity = new IngredientEntity();
-            ingredientEntity.setName(entry.getKey());
-            ingredientEntity.setQuantity(entry.getValue());
-            ingredientDTOList.add(ingredientMapper.mapIngredientEntityToIngredientDTO(ingredientEntity));
-        }
-        return ingredientDTOList;
-    }
+//    public List<IngredientDTO> getAllIngredients() {
+//        List<IngredientDTO> ingredientDTOList = new ArrayList<>();
+//        for (Map.Entry<String, Integer> entry : ingredientRepository.getAllIngredients().entrySet()) {
+//            IngredientEntity ingredientEntity = new IngredientEntity();
+//            ingredientEntity.setName(entry.getKey());
+//            ingredientEntity.setQuantity(entry.getValue());
+//            ingredientDTOList.add(ingredientMapper.mapIngredientEntityToIngredientDTO(ingredientEntity));
+//        }
+//        return ingredientDTOList;
+//    }
 
-    public IngredientDTO updateIngredient(IngredientDTO ingredientToCreateDTO) {
+//    public IngredientDTO updateIngredient(IngredientDTO ingredientToCreateDTO) {
+//
+//        IngredientEntity ingredientEntity = ingredientMapper.mapIngredientDTOtoIngredientEntity(ingredientToCreateDTO);
+//        IngredientEntity createdIngredientEntity = ingredientRepository.updateIngredient(ingredientEntity);
+//
+//        return ingredientMapper.mapIngredientEntityToIngredientDTO(createdIngredientEntity);
+//    }
 
-        IngredientEntity ingredientEntity = ingredientMapper.mapIngredientDTOtoIngredientEntity(ingredientToCreateDTO);
-        IngredientEntity createdIngredientEntity = ingredientRepository.updateIngredient(ingredientEntity);
-
-        return ingredientMapper.mapIngredientEntityToIngredientDTO(createdIngredientEntity);
-    }
-
-    public void deleteIngredient(String name) {
-        ingredientRepository.deleteIngredient(name);
-    }
+//    public void deleteIngredient(String name) {
+//        ingredientRepository.deleteIngredient(name);
+//    }
 }
