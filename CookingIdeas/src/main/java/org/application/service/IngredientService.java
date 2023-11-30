@@ -1,14 +1,11 @@
 package org.application.service;
 
-import org.application.model.dtos.IngredientDTO;
+import org.application.model.dtos.IngredientCreateDTO;
+import org.application.model.dtos.IngredientSearchDTO;
 import org.application.model.entities.IngredientEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.application.repository.IngredientRepository;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 @Service
 public class IngredientService {
@@ -22,12 +19,12 @@ public class IngredientService {
         this.ingredientMapper = ingredientMapper;
     }
 
-    public IngredientDTO createIngredient(IngredientDTO ingredientToCreateDTO) {
+    public IngredientSearchDTO createIngredient(IngredientCreateDTO ingredientToCreateDTO) {
 
         IngredientEntity ingredientEntity = ingredientMapper.mapIngredientDTOtoIngredientEntity(ingredientToCreateDTO);
         IngredientEntity createdIngredientEntity = ingredientRepository.save(ingredientEntity);
 
-        return ingredientMapper.mapIngredientEntityToIngredientDTO(createdIngredientEntity);
+        return ingredientMapper.mapIngredientEntityToUserSearchDTO(createdIngredientEntity);
     }
 
 //    public List<IngredientDTO> getAllIngredients() {

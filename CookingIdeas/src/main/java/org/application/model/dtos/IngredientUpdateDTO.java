@@ -9,7 +9,7 @@ import lombok.*;
 @Getter
 @ToString
 @Builder
-public class IngredientDTO {
+public class IngredientUpdateDTO {
 
     @NotBlank(message = "Ingredientul trebuie sa aiba un nume.")
     private String name;

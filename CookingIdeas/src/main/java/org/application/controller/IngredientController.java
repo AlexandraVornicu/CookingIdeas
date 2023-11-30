@@ -1,13 +1,12 @@
 package org.application.controller;
 
 import jakarta.validation.Valid;
-import org.application.model.dtos.CustomResponseDTO;
-import org.application.model.dtos.IngredientDTO;
+import org.application.model.dtos.IngredientCreateDTO;
+import org.application.model.dtos.IngredientSearchDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.application.service.IngredientService;
 
@@ -25,8 +24,8 @@ public class IngredientController {
     }
 
     @PostMapping(path = "/ingredient")
-    public ResponseEntity<IngredientDTO> createNewIngredient(@RequestBody @Valid IngredientDTO ingredientDTO,
-                                                                 BindingResult bindingResult) {
+    public ResponseEntity<IngredientSearchDTO> createNewIngredient(@RequestBody @Valid IngredientCreateDTO ingredientDTO,
+                                                                   BindingResult bindingResult) {
 //        CustomResponseDTO customResponseDTO = new CustomResponseDTO();
 //
 //        if (bindingResult.hasErrors()) {
