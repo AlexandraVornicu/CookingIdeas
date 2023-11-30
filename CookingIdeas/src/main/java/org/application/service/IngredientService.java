@@ -9,6 +9,7 @@ import org.application.repository.IngredientRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class IngredientService {
@@ -46,7 +47,9 @@ public class IngredientService {
 //        return ingredientMapper.mapIngredientEntityToIngredientDTO(createdIngredientEntity);
 //    }
 
-//    public void deleteIngredient(String name) {
-//        ingredientRepository.deleteIngredient(name);
-//    }
+    public void deleteIngredient(String name) {
+        IngredientEntity ingredientEntityToDelete =
+            ingredientRepository.findAll().stream().filter(i -> (i.getName()).equals(name)).findFirst().orElse(null);
+        ingredientRepository.delete(ingredientEntityToDelete);
+    }
 }

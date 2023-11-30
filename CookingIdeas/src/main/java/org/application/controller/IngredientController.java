@@ -98,22 +98,20 @@ public class IngredientController {
 //        }
 //    }
 
-//    @DeleteMapping(path = "/ingredient/{name}")
-//    public ResponseEntity<CustomResponseDTO> deleteIngredient(@PathVariable String name) {
-//
-//        CustomResponseDTO customResponseDTO = new CustomResponseDTO();
-//
-//        if(ingredientDTOList.containsKey(name)) {
-//            ingredientService.deleteIngredient(name);
-//            ingredientDTOList.remove(name);
-//            customResponseDTO.setResponseObject(null);
-//            customResponseDTO.setResponseMessage("Ingredientul a fost sters.");
-//            return new ResponseEntity<>(customResponseDTO, HttpStatus.OK);
-//        } else {
-//            customResponseDTO.setResponseObject(null);
-//            customResponseDTO.setResponseMessage("Ingredientul nu exista.");
-//            return new ResponseEntity<>(customResponseDTO, HttpStatus.BAD_REQUEST);
-//        }
-//
-//    }
+    @DeleteMapping(path = "/ingredient/{name}")
+    public ResponseEntity<CustomResponseDTO> deleteIngredient(@PathVariable String name) {
+
+        CustomResponseDTO customResponseDTO = new CustomResponseDTO();
+        ingredientList = ingredientService.getAllIngredients();
+        if(ingredientList.stream().anyMatch(i -> (i.getName()).equals(name))) {
+            ingredientService.deleteIngredient(name);
+            customResponseDTO.setResponseObject(null);
+            customResponseDTO.setResponseMessage("Ingredientul a fost sters.");
+            return new ResponseEntity<>(customResponseDTO, HttpStatus.OK);
+        } else {
+            customResponseDTO.setResponseObject(null);
+            customResponseDTO.setResponseMessage("Ingredientul nu exista.");
+            return new ResponseEntity<>(customResponseDTO, HttpStatus.BAD_REQUEST);
+        }
+    }
 }
