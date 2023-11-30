@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.application.repository.IngredientRepository;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class IngredientService {
 
@@ -24,19 +27,16 @@ public class IngredientService {
         IngredientEntity ingredientEntity = ingredientMapper.mapIngredientDTOtoIngredientEntity(ingredientToCreateDTO);
         IngredientEntity createdIngredientEntity = ingredientRepository.save(ingredientEntity);
 
-        return ingredientMapper.mapIngredientEntityToUserSearchDTO(createdIngredientEntity);
+        return ingredientMapper.mapIngredientEntityToIngredientSearchDTO(createdIngredientEntity);
     }
 
-//    public List<IngredientDTO> getAllIngredients() {
-//        List<IngredientDTO> ingredientDTOList = new ArrayList<>();
-//        for (Map.Entry<String, Integer> entry : ingredientRepository.getAllIngredients().entrySet()) {
-//            IngredientEntity ingredientEntity = new IngredientEntity();
-//            ingredientEntity.setName(entry.getKey());
-//            ingredientEntity.setQuantity(entry.getValue());
-//            ingredientDTOList.add(ingredientMapper.mapIngredientEntityToIngredientDTO(ingredientEntity));
-//        }
-//        return ingredientDTOList;
-//    }
+    public List<IngredientSearchDTO> getAllIngredients() {
+        List<IngredientSearchDTO> ingredientDTOList = new ArrayList<>();
+        for (IngredientEntity ingredientEntity : ingredientRepository.findAll()) {
+            ingredientDTOList.add(ingredientMapper.mapIngredientEntityToIngredientSearchDTO(ingredientEntity));
+        }
+        return ingredientDTOList;
+    }
 
 //    public IngredientDTO updateIngredient(IngredientDTO ingredientToCreateDTO) {
 //

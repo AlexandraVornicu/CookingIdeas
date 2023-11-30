@@ -1,12 +1,14 @@
 package org.application.controller;
 
 import jakarta.validation.Valid;
+import org.application.model.dtos.CustomResponseDTO;
 import org.application.model.dtos.IngredientCreateDTO;
 import org.application.model.dtos.IngredientSearchDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.application.service.IngredientService;
 
@@ -24,40 +26,40 @@ public class IngredientController {
     }
 
     @PostMapping(path = "/ingredient")
-    public ResponseEntity<IngredientSearchDTO> createNewIngredient(@RequestBody @Valid IngredientCreateDTO ingredientDTO,
+    public ResponseEntity<CustomResponseDTO> createNewIngredient(@RequestBody @Valid IngredientCreateDTO ingredientDTO,
                                                                    BindingResult bindingResult) {
-//        CustomResponseDTO customResponseDTO = new CustomResponseDTO();
-//
-//        if (bindingResult.hasErrors()) {
-//            List<FieldError> fieldErrors = bindingResult.getFieldErrors();
-//
-//            StringBuilder errorMessages = new StringBuilder();
-//            for (FieldError errorMessage : fieldErrors) {
-//                errorMessages.append(errorMessage.getDefaultMessage()).append(" ");
-//            }
-//
-//            customResponseDTO.setResponseObject(null);
-//            customResponseDTO.setResponseMessage(String.valueOf(errorMessages));
-//            return new ResponseEntity<>(customResponseDTO, HttpStatus.BAD_REQUEST);
-//        }
-//
-//        if(ingredientDTOList.containsKey(ingredientDTO.getName())) {
-//            customResponseDTO.setResponseObject(null);
-//            customResponseDTO.setResponseMessage("Ingredientul exista si trebuie actualizat.");
-//            return new ResponseEntity<>(customResponseDTO, HttpStatus.BAD_REQUEST);
-//        }
-//
-//        ingredientService.createIngredient(ingredientDTO);
-//        customResponseDTO.setResponseObject(ingredientDTO);
-//        ingredientDTOList.put(ingredientDTO.getName(), ingredientDTO.getQuantity());
-//        customResponseDTO.setResponseMessage("Ingredient creat cu succes.");
-        return new ResponseEntity<>(ingredientService.createIngredient(ingredientDTO), HttpStatus.CREATED);
+        CustomResponseDTO customResponseDTO = new CustomResponseDTO();
+
+        if (bindingResult.hasErrors()) {
+            List<FieldError> fieldErrors = bindingResult.getFieldErrors();
+
+            StringBuilder errorMessages = new StringBuilder();
+            for (FieldError errorMessage : fieldErrors) {
+                errorMessages.append(errorMessage.getDefaultMessage()).append(" ");
+            }
+
+            customResponseDTO.setResponseObject(null);
+            customResponseDTO.setResponseMessage(String.valueOf(errorMessages));
+            return new ResponseEntity<>(customResponseDTO, HttpStatus.BAD_REQUEST);
+        }
+
+        if(ingredientDTOList.containsKey(ingredientDTO.getName())) {
+            customResponseDTO.setResponseObject(null);
+            customResponseDTO.setResponseMessage("Ingredientul exista si trebuie actualizat.");
+            return new ResponseEntity<>(customResponseDTO, HttpStatus.BAD_REQUEST);
+        }
+
+        IngredientSearchDTO ingredientSearchDTO = ingredientService.createIngredient(ingredientDTO);
+        customResponseDTO.setResponseObject(ingredientSearchDTO);
+        ingredientDTOList.put(ingredientDTO.getName(), ingredientDTO.getQuantity());
+        customResponseDTO.setResponseMessage("Ingredient creat cu succes.");
+        return new ResponseEntity<>(customResponseDTO, HttpStatus.CREATED);
     }
 
-//    @GetMapping(path = "/ingredients")
-//    public List<IngredientDTO> getAllIngredients() {
-//        return ingredientService.getAllIngredients();
-//    }
+    @GetMapping(path = "/ingredients")
+    public List<IngredientSearchDTO> getAllIngredients() {
+        return ingredientService.getAllIngredients();
+    }
 
 //    @PutMapping(path = "/ingredient/{name}")
 //    public ResponseEntity<CustomResponseDTO> updateIngredient(@PathVariable String name,

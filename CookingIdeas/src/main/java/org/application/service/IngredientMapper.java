@@ -20,7 +20,7 @@ public class IngredientMapper {
 
     }
 
-    public IngredientSearchDTO mapIngredientEntityToUserSearchDTO(IngredientEntity ingredientEntity) {
+    public IngredientSearchDTO mapIngredientEntityToIngredientSearchDTO(IngredientEntity ingredientEntity) {
         return IngredientSearchDTO.builder().id(ingredientEntity.getId()).name(ingredientEntity.getName()).quantity(ingredientEntity.getQuantity()).build();
     }
 }
