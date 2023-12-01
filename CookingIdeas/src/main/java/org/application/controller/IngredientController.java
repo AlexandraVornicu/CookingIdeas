@@ -96,7 +96,7 @@ public class IngredientController {
         } else {
             customResponseDTO.setResponseObject(null);
             customResponseDTO.setResponseMessage("Ingredientul nu exista in baza de date.");
-            return new ResponseEntity<>(customResponseDTO, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(customResponseDTO, HttpStatus.NOT_FOUND);
         }
     }
 
@@ -113,7 +113,7 @@ public class IngredientController {
         } else {
             customResponseDTO.setResponseObject(null);
             customResponseDTO.setResponseMessage("Ingredientul nu exista.");
-            return new ResponseEntity<>(customResponseDTO, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(customResponseDTO, HttpStatus.NOT_FOUND);
         }
     }
 }
