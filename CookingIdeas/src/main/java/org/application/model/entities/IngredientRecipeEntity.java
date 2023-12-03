@@ -1,21 +1,17 @@
 package org.application.model.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Entity(name = "ingredient")
-@Table(name = "ingredients")
-public class IngredientEntity {
-
+@Entity
+public class IngredientRecipeEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     private String name;
     private int quantity;
     @ManyToMany

@@ -7,9 +7,7 @@ import lombok.*;
 @Getter
 @ToString
 @Builder
-public class IngredientSearchDTO {
-
-    private Long id;
+public class IngredientRecipeSearchDTO {
     private String name;
     private int quantity;
 }
