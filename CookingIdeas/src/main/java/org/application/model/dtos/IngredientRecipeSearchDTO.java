@@ -8,6 +8,7 @@ import lombok.*;
 @ToString
 @Builder
 public class IngredientRecipeSearchDTO {
+    private Long id;
     private String name;
     private int quantity;
 }

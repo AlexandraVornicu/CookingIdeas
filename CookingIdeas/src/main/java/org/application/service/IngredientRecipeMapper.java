@@ -21,6 +21,6 @@ public class IngredientRecipeMapper {
     }
 
     public IngredientRecipeSearchDTO mapIngredientRecipeEntityToIngredientRecipeSearchDTO(IngredientRecipeEntity ingredientRecipeEntity) {
-        return IngredientRecipeSearchDTO.builder().name(ingredientRecipeEntity.getName()).quantity(ingredientRecipeEntity.getQuantity()).build();
+        return IngredientRecipeSearchDTO.builder().id(ingredientRecipeEntity.getId()).name(ingredientRecipeEntity.getName()).quantity(ingredientRecipeEntity.getQuantity()).build();
     }
 }

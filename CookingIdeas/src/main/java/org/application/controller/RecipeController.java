@@ -1,19 +1,22 @@
 package org.application.controller;
 
 import jakarta.validation.Valid;
-import org.application.model.dtos.CustomResponseDTO;
-import org.application.model.dtos.RecipeCreateDTO;
-import org.application.model.dtos.RecipeSearchDTO;
+import org.application.model.dtos.*;
+import org.application.model.entities.IngredientRecipeEntity;
+import org.application.service.IngredientRecipeMapper;
+import org.application.service.IngredientRecipeService;
 import org.application.service.RecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -21,10 +24,16 @@ public class RecipeController {
 
     private List<RecipeSearchDTO> recipesList;
     private final RecipeService recipeService;
+    private final IngredientRecipeService ingredientRecipeService;
+    private final IngredientRecipeMapper ingredientRecipeMapper;
 
     @Autowired
-    RecipeController(RecipeService recipeService) {
+    RecipeController(RecipeService recipeService,
+                     IngredientRecipeService ingredientRecipeService,
+                     IngredientRecipeMapper ingredientRecipeMapper) {
         this.recipeService = recipeService;
+        this.ingredientRecipeService = ingredientRecipeService;
+        this.ingredientRecipeMapper = ingredientRecipeMapper;
     }
 
     @PostMapping(path = "/recipe")
@@ -53,8 +62,22 @@ public class RecipeController {
         }
 
         RecipeSearchDTO recipeSearchDTO = recipeService.createRecipe(recipeCreateDTO);
+        List<IngredientRecipeSearchDTO> ingredientRecipeSearchDTOList = new ArrayList<>();
+        for (IngredientRecipeCreateDTO ingredientRecipeCreateDTO: recipeCreateDTO.getIngredientsList()) {
+            ingredientRecipeSearchDTOList.add(
+                ingredientRecipeService.createIngredient(ingredientRecipeCreateDTO)
+            );
+        }
+        recipeSearchDTO.setIngredientsList(ingredientRecipeSearchDTOList);
         customResponseDTO.setResponseObject(recipeSearchDTO);
         customResponseDTO.setResponseMessage("Reteta creata cu succes.");
         return new ResponseEntity<>(customResponseDTO, HttpStatus.CREATED);
     }
+
+    @GetMapping(path = "/recipesfromingredients")
+    public List<RecipeSearchDTO> getRecipesFromIngredients() {
+        return recipeService.getAllRecipesFromIngredients();
+    }
 }
+
+
