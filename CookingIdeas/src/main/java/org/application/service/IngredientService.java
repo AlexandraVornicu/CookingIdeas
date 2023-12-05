@@ -38,6 +38,15 @@ public class IngredientService {
         return ingredientDTOList;
     }
 
+    public List<IngredientSearchDTO> findByNameAndQuantity(String name, int quantity) {
+        List<IngredientSearchDTO> ingredientDTOList = new ArrayList<>();
+        List<IngredientEntity> ingredientEntityList = ingredientRepository.findByNameAndQuantity(name, quantity);
+        for (IngredientEntity ingredientEntity : ingredientEntityList) {
+            ingredientDTOList.add(ingredientMapper.mapIngredientEntityToIngredientSearchDTO(ingredientEntity));
+        }
+        return ingredientDTOList;
+    }
+
     public void updateIngredient(IngredientUpdateDTO ingredientUpdateDTO) {
         IngredientEntity ingredientEntityToUpdate = ingredientRepository
             .findAll().stream().filter(i -> (i.getName()).equals(ingredientUpdateDTO.getName()))

@@ -61,6 +61,13 @@ public class IngredientController {
         return ingredientService.getAllIngredients();
     }
 
+    @GetMapping(path = "/ingredient/{name}/{quantity}")
+    public List<IngredientSearchDTO> findByNameAndQuantity(@PathVariable String name, @PathVariable int quantity) {
+        return ingredientService.findByNameAndQuantity(name, quantity);
+    }
+
+
+
     @PutMapping(path = "/ingredient/{name}")
     public ResponseEntity<CustomResponseDTO> updateIngredient(@PathVariable String name,
                                                               @RequestBody @Valid IngredientUpdateDTO ingredientUpdateDTO,

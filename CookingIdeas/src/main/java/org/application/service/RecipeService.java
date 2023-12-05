@@ -1,9 +1,6 @@
 package org.application.service;
 
-import org.application.model.dtos.IngredientRecipeSearchDTO;
-import org.application.model.dtos.IngredientSearchDTO;
-import org.application.model.dtos.RecipeCreateDTO;
-import org.application.model.dtos.RecipeSearchDTO;
+import org.application.model.dtos.*;
 import org.application.model.entities.IngredientRecipeEntity;
 import org.application.model.entities.RecipeEntity;
 import org.application.repository.IngredientRecipeRepository;
@@ -46,8 +43,19 @@ public class RecipeService {
     public List<RecipeSearchDTO> getAllRecipes() {
         List<RecipeSearchDTO> recipeDTOList = new ArrayList<>();
         for (RecipeEntity recipeEntity : recipeRepository.findAll()) {
-            recipeDTOList.add(recipeMapper.mapRecipeEntityToRecipeSearchDTO(recipeEntity));
+
+            RecipeSearchDTO recipeSearchDTO = recipeMapper.mapRecipeEntityToRecipeSearchDTO(recipeEntity);
+
+            List<IngredientRecipeSearchDTO> ingredientRecipeSearchDTOList = new ArrayList<>();
+
+            for (IngredientRecipeSearchDTO ingredientRecipeSearchDTO: recipeSearchDTO.getIngredientsList()) {
+                ingredientRecipeSearchDTOList.add(ingredientRecipeSearchDTO);
+            }
+            recipeSearchDTO.setIngredientsList(ingredientRecipeSearchDTOList);
+
+            recipeDTOList.add(recipeSearchDTO);
         }
+
         return recipeDTOList;
     }
 

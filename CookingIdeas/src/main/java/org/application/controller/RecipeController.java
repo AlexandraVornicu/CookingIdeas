@@ -25,15 +25,12 @@ public class RecipeController {
     private List<RecipeSearchDTO> recipesList;
     private final RecipeService recipeService;
     private final IngredientRecipeService ingredientRecipeService;
-    private final IngredientRecipeMapper ingredientRecipeMapper;
 
     @Autowired
     RecipeController(RecipeService recipeService,
-                     IngredientRecipeService ingredientRecipeService,
-                     IngredientRecipeMapper ingredientRecipeMapper) {
+                     IngredientRecipeService ingredientRecipeService) {
         this.recipeService = recipeService;
         this.ingredientRecipeService = ingredientRecipeService;
-        this.ingredientRecipeMapper = ingredientRecipeMapper;
     }
 
     @PostMapping(path = "/recipe")
@@ -77,6 +74,10 @@ public class RecipeController {
     @GetMapping(path = "/recipesfromingredients")
     public List<RecipeSearchDTO> getRecipesFromIngredients() {
         return recipeService.getAllRecipesFromIngredients();
+    }
+    @GetMapping(path = "/allrecipes")
+    public List<RecipeSearchDTO> getAllRecipes() {
+        return recipeService.getAllRecipes();
     }
 }
 
